@@ -32,6 +32,7 @@ gem 'jbuilder', '~> 1.2'
 
 gem 'better_errors'
 gem 'binding_of_caller'
+gem 'simple_form'
 
 
 
