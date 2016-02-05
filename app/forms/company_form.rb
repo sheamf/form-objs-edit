@@ -47,10 +47,8 @@ class CompanyForm
   end
       
   def extract_params(params)
-
     @name = params[:name]
     @employee_count = params[:employee_count]
-
     office_params = params[:office_rows]
 
     @office_rows = office_params.map do |k, office_attrs|
