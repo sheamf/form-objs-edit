@@ -7,7 +7,8 @@ class CompanyForm
   attr_reader :name, :employee_count
 
   with_options presence: true do |required|
-    # required.validates # company validations
+    required.validates :name
+    required.validates :employee_count
   end
 
   def persisted?
@@ -68,7 +69,10 @@ class CompanyForm
     include ActiveModel::Validations
 
     with_options presence: true do |required|
-      # required.validates # Office validations
+      required.validates :name 
+      required.validates :city 
+      required.validates :state 
+      required.validates :employee_count
     end
 
     def initialize(params = {})
