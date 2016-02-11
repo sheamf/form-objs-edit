@@ -1,0 +1,36 @@
+<div class='col-md-4'>
+  <h3><%= @company.name %></h3>
+  <table class="table">
+    <tr>
+      <th>Employees: </th>
+      <td><%= @company.employee_count %></td>
+    </tr>
+  </table>
+
+  <h4>Offices</h4>
+
+  <table class="table">
+    <tbody>
+      <% @company.offices.each do |office| %>
+        <tr>
+          <th>Name: </th>
+          <td><%= office.name %></td>
+        </tr>
+        <tr>
+          <th>City: </th>
+          <td><%= office.city %></td>
+        </tr>
+        <tr>
+          <th>State: </th>
+          <td><%= office.state %></td>
+        </tr>
+        <tr>
+          <th>Employees: </th>
+          <td><%= office.employee_count %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <%= link_to "Edit Company", edit_company_path(@company) %>
+</div>

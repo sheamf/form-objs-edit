@@ -1,11 +1,16 @@
-<h3>Companies</h3>
+<div class="col-md-4">
+  <h3>Companies</h3>
 
-<div>
-  <ul>
-    <% @companies.each do |company| %>
-      <li><%= company.name %></li>
-    <% end %>
-  </ul>
+  <table class="table">
+    <tbody>
+      <% @companies.each do |company| %>
+        <tr>
+          <th><%= link_to company.name, company_path(company) %></th>
+          <td><%= link_to 'edit', edit_company_path(company) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <%= link_to "Add Company", new_company_path, class: 'btn' %>
 </div>
-
-<%= link_to "Add Company", new_company_path, class: 'btn' %>
