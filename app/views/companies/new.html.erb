@@ -1,27 +1,3 @@
 <h2>Add a New Company + Offices</h2>
 
-<div id='company-form'>
-  <%= simple_form_for @form, url: companies_path do |f| %>
-    <div class="row">
-      <div class="col-md-4">
-        <h3>Company Details</h3>
-        <%= f.input :name %>
-        <%= f.input :employee_count %>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-12">
-        <h3>Offices</h3>
-        <% @form.office_rows.each_with_index do |office_row, idx| %>
-          <%= render 'office_row', f: f, office_row: office_row, idx: idx %>
-        <% end %>
-      </div>
-    </div>
-
-    <div class="row">
-      <%= button_tag "Add Another Office", type: 'button', class: 'btn', id: 'add-office-row' %>
-      <%= f.submit "Create Company", class: "btn btn-primary", data: { :disable_with => "Saving..." } %>
-    </div>
-  <% end %>
-</div>
+<%= render 'form', form: @form %>

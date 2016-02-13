@@ -23,4 +23,14 @@ class CompaniesController < ApplicationController
     end
   end
 
+  def edit
+    company = Company.find(params[:id])
+    @form = EditCompanyForm.new(company)
+  end
+
+  def update
+    
+
+  end
+
 end
