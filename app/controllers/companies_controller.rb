@@ -9,13 +9,13 @@ class CompaniesController < ApplicationController
   end
 
   def new
-    @form = CompanyForm.new
+    @form = NewCompanyForm.new
   end
 
   def create
-    form = CompanyForm.new
+    form = NewCompanyForm.new
 
-    if form.submit(params[:company_form])
+    if form.submit(params[:company])
       redirect_to companies_path, notice: "Company successfully created."
     else
       @form = form
@@ -29,7 +29,15 @@ class CompaniesController < ApplicationController
   end
 
   def update
-    
+    company = Company.find(params[:id])
+    form = EditCompanyForm.new(company)
+
+    if form.submit(params[:company])
+      redirect_to companies_path, notice: "Company successfully updated."
+    else
+      @form = form
+      render :edit
+    end   
 
   end
 

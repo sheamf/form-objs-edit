@@ -1,5 +1,5 @@
 <div id='company-form'>
-  <%= simple_form_for form, url: companies_path do |f| %>
+  <%= simple_form_for form, url: form.persisted? ? company_path(form.company) : companies_path do |f| %>
     <div class="row">
       <div class="col-md-4">
         <h3>Company Details</h3>
@@ -12,14 +12,14 @@
       <div class="col-md-12">
         <h3>Offices</h3>
         <% form.office_rows.each_with_index do |office_row, idx| %>
-          <%= render 'office_row', f: f, office_row: office_row, idx: idx %>
+          <%= render 'office_row', f: f, office_row: office_row, idx: office_row.persisted? ? office_row.id : idx %>
         <% end %>
       </div>
     </div>
 
     <div class="row">
       <%= button_tag "Add Another Office", type: 'button', class: 'btn', id: 'add-office-row' %>
-      <%= f.submit "Create Company", class: "btn btn-primary", data: { :disable_with => "Saving..." } %>
+      <%= f.submit "Save", class: "btn btn-primary", data: { :disable_with => "Saving..." } %>
     </div>
   <% end %>
 </div>
