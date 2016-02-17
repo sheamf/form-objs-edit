@@ -3,6 +3,10 @@
   <fieldset>
     <%= f.simple_fields_for "office_rows[#{idx}]", office_row do |office_fields| %>
 
+      <% if office_row.persisted? %>
+        <%= office_fields.hidden_field :id, value: office_row.id %>
+      <% end %>
+
       <%= office_fields.input :name %>
       <%= office_fields.input :city %>
       <%= office_fields.input :state %>

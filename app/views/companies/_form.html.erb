@@ -12,7 +12,8 @@
       <div class="col-md-12">
         <h3>Offices</h3>
         <% form.office_rows.each_with_index do |office_row, idx| %>
-          <%= render 'office_row', f: f, office_row: office_row, idx: office_row.persisted? ? office_row.id : idx %>
+          <%#= render 'office_row', f: f, office_row: office_row, idx: office_row.persisted? ? office_row.id : idx %>
+          <%= render 'office_row', f: f, office_row: office_row, idx: idx %>
         <% end %>
       </div>
     </div>

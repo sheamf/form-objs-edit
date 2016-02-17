@@ -50,5 +50,33 @@ class CompanyForm
       required.validates :employee_count
     end
 
+    def initialize(params = {})
+      @name = params[:name]
+      @city = params[:city]
+      @state = params[:state]
+      @employee_count = params[:employee_count]
+    end
+
+    def persisted?
+      false
+    end
+  end
+
+  class NewOfficeRow < OfficeRow
+
+    attr_accessor :company
+
+    def initialize(params, company = nil)
+      @company = company unless company.nil?
+      super(params)
+    end
+
+    def persisted?
+      false
+    end
+
+    def persist! # find a better way to create the association
+      office = Office.create!(name: name, city: city, state: state, employee_count: employee_count, company_id: @company.try(:id))
+    end
   end
 end

@@ -12,7 +12,7 @@ class NewCompanyForm < CompanyForm
     @company = Company.new(name: name, employee_count: employee_count)
 
     @office_rows.each do |office_row|
-      office = office_row.save!
+      office = office_row.create!
       @company.offices << office
     end
 
@@ -27,21 +27,4 @@ class NewCompanyForm < CompanyForm
     end
   end
 
-  class NewOfficeRow < OfficeRow
-
-    def initialize(params = {})
-      @name = params[:name]
-      @city = params[:city]
-      @state = params[:state]
-      @employee_count = params[:employee_count]
-    end
-
-    def persisted?
-      false
-    end
-
-    def save!
-      Office.create!(name: name, city: city, state: state, employee_count: employee_count)
-    end
-  end
 end
