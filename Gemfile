@@ -34,6 +34,12 @@ gem 'better_errors'
 gem 'binding_of_caller'
 gem 'simple_form'
 
+group :test, :development do
+  gem 'database_cleaner'
+  gem 'capybara'
+  gem 'rack_session_access'
+  gem 'launchy'
+end
 
 
 group :doc do
