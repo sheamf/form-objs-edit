@@ -36,7 +36,8 @@ class EditCompanyForm < CompanyForm
     end
 
     new_office_params.each do |k, v|
-      @office_rows << NewOfficeRow.new(v, @company)
+      params = v.merge(company: company)
+      @office_rows << NewOfficeRow.new(params)
     end
   end
 

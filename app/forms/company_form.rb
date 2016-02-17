@@ -66,9 +66,9 @@ class CompanyForm
 
     attr_accessor :company
 
-    def initialize(params, company = nil)
-      @company = company unless company.nil?
-      super(params)
+    def initialize(params = {})
+      @company = params[:company]
+      super
     end
 
     def persisted?
