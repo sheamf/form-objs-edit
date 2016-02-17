@@ -36,7 +36,7 @@ class EditCompanyForm < CompanyForm
     end
 
     new_office_params.each do |k, v|
-      @office_rows << NewOfficeRow.new(v)
+      @office_rows << NewOfficeRow.new(v, @company)
     end
   end
 

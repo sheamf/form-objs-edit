@@ -76,7 +76,7 @@ class CompanyForm
     end
 
     def persist! # find a better way to create the association
-      office = Office.create!(name: name, city: city, state: state, employee_count: employee_count, company_id: @company.try(:id))
+      Office.create!(name: name, city: city, state: state, employee_count: employee_count, company_id: @company.try(:id))
     end
   end
 end
