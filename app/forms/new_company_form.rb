@@ -12,7 +12,7 @@ class NewCompanyForm < CompanyForm
     @company = Company.new(name: name, employee_count: employee_count)
 
     @office_rows.each do |office_row|
-      office = office_row.create!
+      office = office_row.persist!
       @company.offices << office
     end
 

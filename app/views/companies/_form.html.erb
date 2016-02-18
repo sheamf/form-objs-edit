@@ -1,7 +1,7 @@
 <div id='company-form'>
   <%= simple_form_for form, url: form.persisted? ? company_path(form.company) : companies_path do |f| %>
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-md-4 company-details">
         <h3>Company Details</h3>
         <%= f.input :name %>
         <%= f.input :employee_count %>
