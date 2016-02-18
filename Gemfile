@@ -37,6 +37,7 @@ gem 'simple_form'
 group :test, :development do
   gem 'database_cleaner'
   gem 'capybara'
+  gem 'poltergeist'
   gem 'rack_session_access'
   gem 'launchy'
 end
