@@ -38,6 +38,8 @@ class NewCompanyIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test "failed submit with multiple offices" do
+    Capybara.current_driver = Capybara.javascript_driver
+
     visit new_company_path
 
     fill_in_company_info(company_opts)
@@ -45,7 +47,38 @@ class NewCompanyIntegrationTest < ActionDispatch::IntegrationTest
 
     click_button "Add Another Office"
 
-    # need to add poltergeist first
+    count = page.all('div.office-row-fieldset').size - 1
+
+    fill_in_office_info(office_opts({ selector: "#office-#{count - 1}", city: nil }))
+
+    click_button 'Save'
+
+    assert page.has_content? "can't be blank"
+
+    Capybara.use_default_driver
+  end
+
+  test "successful submit with multiple offices" do
+    Capybara.current_driver = Capybara.javascript_driver
+
+    visit new_company_path
+
+    fill_in_company_info(company_opts)
+    fill_in_office_info(office_opts)
+
+    click_button "Add Another Office"
+
+    count = page.all('div.office-row-fieldset').size
+
+    fill_in_office_info(office_opts({ selector: "#office-#{count - 1}" }))
+
+    click_button 'Save'
+
+    assert_equal companies_path, page.current_path
+    assert page.has_content? 'Company successfully created.'
+    assert page.has_content? company_opts[:name]
+
+    Capybara.use_default_driver
   end
 
   private
@@ -58,7 +91,9 @@ class NewCompanyIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   def fill_in_office_info(opts = {})
-    within('div.office-row-fieldset') do
+    selector = opts.fetch(:selector, 'div.office-row-fieldset')
+    
+    within(selector) do
       fill_in 'Name', with: opts[:name]
       fill_in 'City', with: opts[:city]
       fill_in 'State', with: opts[:state]
