@@ -3,7 +3,6 @@ require_relative "integration_test_helper"
 class NewCompanyIntegrationTest < ActionDispatch::IntegrationTest
 
   def setup
-
   end
 
   test "visit new company page" do
@@ -20,36 +19,25 @@ class NewCompanyIntegrationTest < ActionDispatch::IntegrationTest
     
     click_button 'Save'
 
-    # assert_equal new_company_path, page.current_path
     assert page.has_content? "can't be blank"
   end
 
   test "successful submit" do
-    visit new_company_path
-
-    fill_in_company_info(company_opts)
-    fill_in_office_info(office_opts)
+    fill_in_new_company_default_info
     
     click_button 'Save'
   
-    assert_equal companies_path, page.current_path
-    assert page.has_content? 'Company successfully created.'
-    assert page.has_content? company_opts[:name]
+    assert_company_created
   end
 
   test "failed submit with multiple offices" do
     Capybara.current_driver = Capybara.javascript_driver
 
-    visit new_company_path
-
-    fill_in_company_info(company_opts)
-    fill_in_office_info(office_opts)
+    fill_in_new_company_default_info
 
     click_button "Add Another Office"
 
-    count = page.all('div.office-row-fieldset').size - 1
-
-    fill_in_office_info(office_opts({ selector: "#office-#{count - 1}", city: nil }))
+    fill_in_office_info(office_opts({ selector: new_office_row_fieldset, city: nil }))
 
     click_button 'Save'
 
@@ -61,22 +49,15 @@ class NewCompanyIntegrationTest < ActionDispatch::IntegrationTest
   test "successful submit with multiple offices" do
     Capybara.current_driver = Capybara.javascript_driver
 
-    visit new_company_path
-
-    fill_in_company_info(company_opts)
-    fill_in_office_info(office_opts)
+    fill_in_new_company_default_info
 
     click_button "Add Another Office"
 
-    count = page.all('div.office-row-fieldset').size
-
-    fill_in_office_info(office_opts({ selector: "#office-#{count - 1}" }))
+    fill_in_office_info(office_opts({ selector: new_office_row_fieldset }))
 
     click_button 'Save'
 
-    assert_equal companies_path, page.current_path
-    assert page.has_content? 'Company successfully created.'
-    assert page.has_content? company_opts[:name]
+    assert_company_created
 
     Capybara.use_default_driver
   end
@@ -109,7 +90,21 @@ class NewCompanyIntegrationTest < ActionDispatch::IntegrationTest
     { name: 'Office1', city: 'Muskogee', state: 'OK', employee_count: 1 }.merge(opts)
   end
 
+  def fill_in_new_company_default_info
+    visit new_company_path
 
+    fill_in_company_info(company_opts)
+    fill_in_office_info(office_opts)
+  end
 
+  def assert_company_created
+    assert_equal companies_path, page.current_path
+    assert page.has_content? 'Company successfully created.'
+    assert page.has_content? company_opts[:name]
+  end
 
+  def new_office_row_fieldset
+    count = page.all('div.office-row-fieldset').size
+    "#office-#{count - 1}"
+  end
 end
