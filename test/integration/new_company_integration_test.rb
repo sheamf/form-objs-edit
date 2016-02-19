@@ -45,7 +45,7 @@ class NewCompanyIntegrationTest < ActionDispatch::IntegrationTest
 
     click_button "Add Another Office"
 
-    fill_in_office_info(office_opts({ selector: new_office_row_fieldset }))
+    fill_in_office_info(office_opts({ selector: last_office_row_fieldset }))
 
     click_button 'Save'
 
@@ -59,7 +59,7 @@ class NewCompanyIntegrationTest < ActionDispatch::IntegrationTest
 
     failed_creation_multiple_offices
 
-    within new_office_row_fieldset do
+    within last_office_row_fieldset do
       click_button 'Remove'
     end
 
@@ -112,17 +112,12 @@ class NewCompanyIntegrationTest < ActionDispatch::IntegrationTest
     assert page.has_content? company_opts[:name]
   end
 
-  def new_office_row_fieldset
-    count = page.all('div.office-row-fieldset').size
-    "#office-#{count - 1}"
-  end
-
   def failed_creation_multiple_offices
     fill_in_new_company_default_info
 
     click_button "Add Another Office"
 
-    fill_in_office_info(office_opts({ selector: new_office_row_fieldset, city: nil }))
+    fill_in_office_info(office_opts({ selector: last_office_row_fieldset, city: nil }))
 
     click_button 'Save'
 

@@ -26,6 +26,9 @@ class ActionDispatch::IntegrationTest
 
   include Capybara::DSL
 
-
+  def last_office_row_fieldset
+    count = page.all('div.office-row-fieldset').size
+    "#office-#{count - 1}"
+  end
 
 end
