@@ -1,11 +1,13 @@
 office1:
   company: company
-  name: Muskogee
+  name: office1
+  city: Muskogee
   state: OK
   employee_count: 1
 
 office2:
   company: company
-  name: Olkmulgee
+  name: office2
+  city: Olkmulgee
   state: OK
   employee_count: 4
