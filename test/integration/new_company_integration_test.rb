@@ -33,15 +33,7 @@ class NewCompanyIntegrationTest < ActionDispatch::IntegrationTest
   test "failed submit with multiple offices" do
     Capybara.current_driver = Capybara.javascript_driver
 
-    fill_in_new_company_default_info
-
-    click_button "Add Another Office"
-
-    fill_in_office_info(office_opts({ selector: new_office_row_fieldset, city: nil }))
-
-    click_button 'Save'
-
-    assert page.has_content? "can't be blank"
+    failed_creation_multiple_offices
 
     Capybara.use_default_driver
   end
@@ -60,6 +52,23 @@ class NewCompanyIntegrationTest < ActionDispatch::IntegrationTest
     assert_company_created
 
     Capybara.use_default_driver
+  end
+
+  test "successful submit after removing incomplete office row" do
+    Capybara.current_driver = Capybara.javascript_driver
+
+    failed_creation_multiple_offices
+
+    within new_office_row_fieldset do
+      click_button 'Remove'
+    end
+
+    click_button 'Save'
+
+    assert_company_created    
+
+    Capybara.use_default_driver
+
   end
 
   private
@@ -106,5 +115,17 @@ class NewCompanyIntegrationTest < ActionDispatch::IntegrationTest
   def new_office_row_fieldset
     count = page.all('div.office-row-fieldset').size
     "#office-#{count - 1}"
+  end
+
+  def failed_creation_multiple_offices
+    fill_in_new_company_default_info
+
+    click_button "Add Another Office"
+
+    fill_in_office_info(office_opts({ selector: new_office_row_fieldset, city: nil }))
+
+    click_button 'Save'
+
+    assert page.has_content? "can't be blank"
   end
 end
