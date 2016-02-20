@@ -3,14 +3,17 @@ require_relative "integration_test_helper"
 class NewCompanyIntegrationTest < ActionDispatch::IntegrationTest
 
   def setup
-    visit new_company_path
   end
 
   test "visit new company page" do
+    visit new_company_path
+
     assert page.has_content?("Add a New Company + Offices")
   end
 
   test "failed form submit" do
+    visit new_company_path
+
     fill_in_company_info(company_opts)
     fill_in_office_info(office_opts(city: nil))
     
@@ -19,7 +22,7 @@ class NewCompanyIntegrationTest < ActionDispatch::IntegrationTest
 
   test "successful form submit" do
     fill_in_new_company_default_info
-      
+
     successful_submission_test(:create)
   end
 
@@ -69,6 +72,8 @@ class NewCompanyIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   def fill_in_new_company_default_info
+    visit new_company_path
+
     fill_in_company_info(company_opts)
     fill_in_office_info(office_opts)
   end
