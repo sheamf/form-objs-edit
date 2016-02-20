@@ -9,4 +9,4 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-ExpFormObjs::Application.config.secret_key_base = 'cd4ba29c239836d3c52ec881caa74469341b84ae40d1ed3fa3abc863f3a5ec734ae370f0a313f4eea8d0efea5819afd52d6951ae3e8b07352279e95b70f57408'
+FormObjsEdit::Application.config.secret_key_base = 'cd4ba29c239836d3c52ec881caa74469341b84ae40d1ed3fa3abc863f3a5ec734ae370f0a313f4eea8d0efea5819afd52d6951ae3e8b07352279e95b70f57408'

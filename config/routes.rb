@@ -1,4 +1,4 @@
-ExpFormObjs::Application.routes.draw do
+FormObjsEdit::Application.routes.draw do
 
   root 'companies#index'
 

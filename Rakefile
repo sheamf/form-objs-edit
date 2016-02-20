@@ -3,4 +3,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-ExpFormObjs::Application.load_tasks
+FormObjsEdit::Application.load_tasks
