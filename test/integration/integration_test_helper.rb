@@ -31,4 +31,38 @@ class ActionDispatch::IntegrationTest
     "#office-#{count - 1}"
   end
 
+  def company_opts(opts = {})
+    { name: 'LolCo', employee_count: 1 }.merge(opts)
+  end
+
+  def office_opts(opts = {})
+    { name: 'Office1', city: 'Muskogee', state: 'OK', employee_count: 1 }.merge(opts)
+  end
+
+  def fill_in_office_info(opts = {})
+    selector = opts.fetch(:selector, 'div.office-row-fieldset')
+    
+    within(selector) do
+      fill_in 'Name', with: opts[:name]
+      fill_in 'City', with: opts[:city]
+      fill_in 'State', with: opts[:state]
+      fill_in 'Employee count', with: opts[:employee_count]
+    end
+  end
+
+  def successful_submission_test(action_verb)
+    click_button 'Save'
+
+    action = action_verb.verb.conjugate(tense: :past, aspect: :perfective)
+
+    assert_equal companies_path, page.current_path
+    assert page.has_content? "Company successfully #{action}."
+    assert page.has_content? company_opts[:name]
+  end
+
+  def failed_submission_submit
+    click_button 'Save'
+
+    assert page.has_content? "can't be blank"
+  end
 end
