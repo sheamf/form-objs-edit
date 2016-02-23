@@ -28,12 +28,48 @@ var addOfficeRow = function() {
   });
 
   $newOfficeRow.insertAfter($lastOfficeRow);
-  bindRemovalButtons();
+  bindRemovalLinks();
 }
 
-var bindRemovalButtons = function() {
+var bindRemovalLinks = function() {
   $('.remove-office-row').unbind('click').on('click', function() {
-    $(this).closest('div.office-row-fieldset').remove();
+    var $fieldset = $(this).closest('div.office-row-fieldset');
+    var $officeIdField = $fieldset.find('[id*=company_office_rows_]')
+    var officeId = $officeIdField.val();
+
+    if (officeId.length == 0) {
+      // todo
+    } else {
+      // todo
+    }
+    
+    var $removalLink = $(this);
+    manageRemovalLinks($fieldset, $removalLink);
+  });
+}
+
+// TODO: when adding a row, unhide the first row's remove link
+//       when removing a row, hide first row's remove link IF it's the only one left
+
+
+var manageRemovalLinks = function($fieldset, $removalLink) {
+  event.preventDefault();
+  var $confirmLinksDiv = $fieldset.find('.remove-confirm');
+  var $confirmLinks = $confirmLinksDiv.find('.remove-office-row');
+
+  $removalLink.hide();
+  $confirmLinksDiv.css('display', 'inline');
+
+  $confirmLinks.unbind('click').on('click', function() {
+    event.preventDefault();
+    var $confirmLink = $(this);
+
+    if ($confirmLink.hasClass('yes')) {
+      $confirmLink.closest('div.office-row-fieldset').remove();
+    } else if ($confirmLink.hasClass('no')) {
+      $confirmLink.closest('.remove-confirm').hide();
+      $removalLink.show();      
+    }
   });
 }
 
@@ -44,7 +80,7 @@ var ready = function() {
 
   $('.office-row-fieldset').first().find('.remove-office-row').hide();
 
-  bindRemovalButtons();
+  bindRemovalLinks();
 }
 
 $(document).ready(ready);

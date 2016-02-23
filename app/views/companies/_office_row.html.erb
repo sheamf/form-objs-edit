@@ -1,4 +1,4 @@
-<div class="office-row-fieldset form-inline" id="office-<%= idx %>">
+<div class="office-row-fieldset form-inline" id="office-<%= idx %>"><!--  data-new-record='<%#= !office_row.persisted? %>'> -->
   <legend><h5>Office Details</h5></legend>
   <fieldset>
     <%= f.simple_fields_for "office_rows[#{idx}]", office_row do |office_fields| %>
@@ -13,6 +13,16 @@
       <%= office_fields.input :employee_count %>
 
     <% end %>
-    <%= button_tag "Remove", type: 'button', class: ['btn', 'remove-office-row'] %>
+
+    <div class="remove" style="display: inline;">
+      <%= link_to "Remove", '#', class: 'remove-office-row' %>
+    </div>
+
+    <div class="remove-confirm" style="display: none;">
+      Are you sure?
+      <%= link_to "Yes", '#', class: ['remove-office-row', 'yes'] %> / 
+      <%= link_to "No", '#', class: ['remove-office-row', 'no'] %>
+    </div>
+
   </fieldset>
 </div>
