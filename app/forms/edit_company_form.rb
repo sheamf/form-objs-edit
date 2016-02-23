@@ -21,17 +21,16 @@ class EditCompanyForm < CompanyForm
     @company.update_attributes!(name: name, employee_count: employee_count)
   end
 
-  def extract_params(params) # why is params passed in if I'm just grabbing the ivar set in #super?
+  def extract_params(params)
     super
 
-    existing_office_params = @office_params.select { |k, v| v[:id].present? }
     new_office_params = @office_params.select { |k, v| v[:id].blank? }
 
     @office_rows = office_rows.select { |row| row.persisted? } # remove NewOfficeRow instances
 
     @office_rows.each do |office_row|
-      params = existing_office_params.select { |k, v| v[:id] == office_row.office.id.to_s } # could just use @office_params and eliminate
-      params = params.values.inject(:reduce)                                                # the existing_... select bit, I think
+      params = @office_params.select { |k, v| v[:id] == office_row.office.id.to_s }
+      params = params.values.inject(:reduce)
       office_row.extract_params(params)
     end
 
