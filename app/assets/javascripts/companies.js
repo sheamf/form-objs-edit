@@ -1,12 +1,10 @@
 var addOfficeRow = function() {
-  var $lastOfficeRow = $('.office-row-fieldset').last();
+  var $lastOfficeRow = $('.office-row-fieldset:visible').last();
   var $newOfficeRow = $lastOfficeRow.clone();
   $newOfficeRow.find('input').val('');
   $newOfficeRow.find('.remove-office-row').show();
   var officeRowCount = $('.office-row-fieldset').length;
 
-  // oh jeez.  the count only matches 0-indexing because the dom hasn't updated with the new fieldset by the 
-  // time the length is checked, so it checks the existing fieldset count.
   var oldId = $newOfficeRow.prop('id');
   var newId = oldId.replace(new RegExp(/[0-9]/), officeRowCount);
   $newOfficeRow.prop('id', newId);
@@ -28,6 +26,7 @@ var addOfficeRow = function() {
   });
 
   $newOfficeRow.insertAfter($lastOfficeRow);
+  manageFirstRowRemovalLink();
   bindRemovalLinks();
 }
 
@@ -35,14 +34,10 @@ var bindRemovalLinks = function() {
   $('.remove-office-row').unbind('click').on('click', function() {
     var $fieldset = $(this).closest('div.office-row-fieldset');
     var $removalLink = $(this);
-    
+
     manageRemovalLinks($fieldset, $removalLink);
   });
 }
-
-// TODO: when adding a row, unhide the first row's remove link
-//       when removing a row, hide first row's remove link IF it's the only one left
-
 
 var manageRemovalLinks = function($fieldset, $removalLink) {
   event.preventDefault();
@@ -75,6 +70,18 @@ var removeOfficeRow = function($confirmLink) {
   } else {
     $fieldset.remove();
   }
+  manageFirstRowRemovalLink();
+}
+
+var manageFirstRowRemovalLink = function() {
+  var $firstRow = $('.office-row-fieldset').first();
+  var visibleOfficeRowCount = $('.office-row-fieldset:visible').length;
+
+  if (visibleOfficeRowCount > 1) {
+    $firstRow.find('.remove-office-row').show();
+  } else {
+    $firstRow.find('.remove-office-row').hide();
+  }
 }
 
 var ready = function() {
@@ -82,8 +89,7 @@ var ready = function() {
     addOfficeRow();
   });
 
-  $('.office-row-fieldset').first().find('.remove-office-row').hide();
-
+  manageFirstRowRemovalLink();
   bindRemovalLinks();
 }
 
