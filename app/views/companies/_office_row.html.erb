@@ -5,6 +5,7 @@
 
       <% if office_row.persisted? %>
         <%= office_fields.hidden_field :id, value: office_row.id %>
+        <%= office_fields.hidden_field :remove, value: false, class: 'removal-field' %>
       <% end %>
 
       <%= office_fields.input :name %>

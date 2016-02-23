@@ -60,6 +60,7 @@ class EditCompanyForm < CompanyForm
     end
 
     def extract_params(params)
+      @remove = params[:remove]
       @name = params[:name]
       @city = params[:city]
       @state = params[:state]
@@ -67,7 +68,11 @@ class EditCompanyForm < CompanyForm
     end
 
     def persist!
-      @office.update_attributes!(name: name, city: city, state: state, employee_count: employee_count)
+      if @remove == 'true'
+        @office.destroy
+      else
+        @office.update_attributes!(name: name, city: city, state: state, employee_count: employee_count)
+      end
     end
   end
 end

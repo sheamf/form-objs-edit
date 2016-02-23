@@ -34,16 +34,8 @@ var addOfficeRow = function() {
 var bindRemovalLinks = function() {
   $('.remove-office-row').unbind('click').on('click', function() {
     var $fieldset = $(this).closest('div.office-row-fieldset');
-    var $officeIdField = $fieldset.find('[id*=company_office_rows_]')
-    var officeId = $officeIdField.val();
-
-    if (officeId.length == 0) {
-      // todo
-    } else {
-      // todo
-    }
-    
     var $removalLink = $(this);
+    
     manageRemovalLinks($fieldset, $removalLink);
   });
 }
@@ -65,12 +57,24 @@ var manageRemovalLinks = function($fieldset, $removalLink) {
     var $confirmLink = $(this);
 
     if ($confirmLink.hasClass('yes')) {
-      $confirmLink.closest('div.office-row-fieldset').remove();
+      removeOfficeRow($confirmLink);
     } else if ($confirmLink.hasClass('no')) {
       $confirmLink.closest('.remove-confirm').hide();
       $removalLink.show();      
     }
   });
+}
+
+var removeOfficeRow = function($confirmLink) {
+  var $fieldset = $confirmLink.closest('div.office-row-fieldset');
+  var $removalField = $fieldset.find('.removal-field');
+
+  if ($removalField.length != 0) {
+    $removalField.val('true');
+    $fieldset.hide();
+  } else {
+    $fieldset.remove();
+  }
 }
 
 var ready = function() {
