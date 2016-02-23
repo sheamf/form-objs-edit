@@ -4,7 +4,7 @@
     <%= f.simple_fields_for "office_rows[#{idx}]", office_row do |office_fields| %>
 
       <% if office_row.persisted? %>
-        <%= office_fields.hidden_field :id, value: office_row.id %>
+        <%= office_fields.hidden_field :id, value: office_row.id, class: 'id-field' %>
         <%= office_fields.hidden_field :remove, value: false, class: 'removal-field' %>
       <% end %>
 

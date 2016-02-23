@@ -25,9 +25,15 @@ var addOfficeRow = function() {
     $(this).attr('name', newName);
   });
 
+  removePersistedRecordFields($newOfficeRow);
   $newOfficeRow.insertAfter($lastOfficeRow);
   manageFirstRowRemovalLink();
   bindRemovalLinks();
+}
+
+var removePersistedRecordFields = function($newOfficeRow) {
+  $newOfficeRow.find('.id-field').remove();
+  $newOfficeRow.find('.removal-field').remove();
 }
 
 var bindRemovalLinks = function() {
