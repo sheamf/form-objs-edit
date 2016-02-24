@@ -67,11 +67,17 @@ class EditCompanyForm < CompanyForm
     end
 
     def persist!
-      if @remove == 'true'
+      if flagged_for_deletion?
         @office.destroy
       else
         @office.update_attributes!(name: name, city: city, state: state, employee_count: employee_count)
       end
     end
+
+    private
+
+      def flagged_for_deletion?
+        @remove == 'true'
+      end
   end
 end
